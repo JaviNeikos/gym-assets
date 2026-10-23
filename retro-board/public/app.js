@@ -5,7 +5,8 @@ const store = {
 };
 let clientId = store.get('retro-client');
 if (!clientId) {
-  clientId = crypto.randomUUID();
+  // randomUUID solo existe en contextos seguros; por http://IP-local no está disponible
+  clientId = crypto.randomUUID?.() ?? Array.from(crypto.getRandomValues(new Uint8Array(16)), (x) => x.toString(16).padStart(2, '0')).join('');
   store.set('retro-client', clientId);
 }
 
